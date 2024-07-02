@@ -22,13 +22,15 @@ public class DashboardController {
         setUI("StudentForm");
     }
 
-    public void teacherOnAction(ActionEvent actionEvent) {
+    public void teacherOnAction(ActionEvent actionEvent) throws IOException {
+        setUI("TeacherForm");
     }
 
     public void intakeOnAction(ActionEvent actionEvent) {
     }
 
-    public void courseOnAction(ActionEvent actionEvent) {
+    public void courseOnAction(ActionEvent actionEvent) throws IOException {
+        setUI("CourseForm");
     }
 
     public void registrationOnAction(ActionEvent actionEvent) {

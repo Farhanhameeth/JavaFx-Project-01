@@ -1,22 +1,27 @@
-package com.institute.iitManage.model;
+package com.institute.iitManage.model.Tm;
 
-public class Course {
+import javafx.scene.control.Button;
 
+import java.util.Arrays;
+
+public class CourseTm {
     private String courseID;
-    private String courseName;
+    private String name;
     private String[] subjects;
     private String teacherID;
     private double cost;
+    private Button button;
 
-    public Course() {
+    public CourseTm() {
     }
 
-    public Course(String courseID, String courseName, String[] subjects, String teacherID, double cost) {
+    public CourseTm(String courseID, String name, String[] subjects, String teacherID, double cost, Button button) {
         this.courseID = courseID;
-        this.courseName = courseName;
+        this.name = name;
         this.subjects = subjects;
         this.teacherID = teacherID;
         this.cost = cost;
+        this.button = button;
     }
 
     public String getCourseID() {
@@ -27,12 +32,12 @@ public class Course {
         this.courseID = courseID;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String[] getSubjects() {
@@ -40,7 +45,6 @@ public class Course {
     }
 
     public void setSubjects(String[] subjects) {
-
         this.subjects = subjects;
     }
 
@@ -58,6 +62,26 @@ public class Course {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseTm{" +
+                "courseID='" + courseID + '\'' +
+                ", name='" + name + '\'' +
+                ", subjects=" + Arrays.toString(subjects) +
+                ", teacherID='" + teacherID + '\'' +
+                ", cost=" + cost +
+                ", button=" + button +
+                '}';
     }
 
     public String getSubjectSaString (){

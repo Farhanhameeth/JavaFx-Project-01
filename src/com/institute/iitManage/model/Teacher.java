@@ -5,6 +5,7 @@ public class Teacher {
     private String teacherID;
     private String name;
     private String address;
+    private String contact;
 
     public Teacher() {
     }
@@ -15,8 +16,6 @@ public class Teacher {
         this.address = address;
         this.contact = contact;
     }
-
-    private String contact;
 
     public String getTeacherID() {
         return teacherID;
@@ -48,5 +47,15 @@ public class Teacher {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherID='" + teacherID + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", contact='" + contact + '\'' +
+                '}';
     }
 }

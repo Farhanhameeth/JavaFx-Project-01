@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Observable;
 import java.util.Optional;
 
 public class StudentFormController {
@@ -58,9 +57,7 @@ public class StudentFormController {
             searchText = newValue;
             setTableData(searchText);
         });
-
     }
-
 
     public void newStudentOnAction(ActionEvent actionEvent) {
 
@@ -87,8 +84,7 @@ public class StudentFormController {
             generateStudentID();
             clear();
             setTableData(searchText);
-            new Alert(Alert.AlertType.INFORMATION,"Student has been Saved....!").show();
-            System.out.println(student.toString());
+             
         } else {
 
             for (Student student : Database.studentTable) {
@@ -100,12 +96,11 @@ public class StudentFormController {
                     setTableData(searchText);
                     clear();
                     generateStudentID();
-                    new Alert(Alert.AlertType.INFORMATION,"Student has been updated....!").show();
+                    new Alert(Alert.AlertType.INFORMATION,"Student has been updated Successfully....!").show();
                     btnSaveStudent.setText("Save Student");
                     return;
                 }
             }
-
         }
     }
 
@@ -157,7 +152,7 @@ public class StudentFormController {
                 ));
                 button.setOnAction(event -> {
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure....!",ButtonType.NO,ButtonType.YES);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure....!",ButtonType.YES,ButtonType.NO);
                     Optional<ButtonType> buttonType = alert.showAndWait();
 
                     if (buttonType.get().equals(ButtonType.YES)) {
@@ -165,7 +160,6 @@ public class StudentFormController {
                         new Alert(Alert.AlertType.INFORMATION,"Student has been Deleted....!").show();
                         setTableData(searchText);
                     }
-
                 });
             }
         }
