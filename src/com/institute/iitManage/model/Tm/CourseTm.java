@@ -2,34 +2,32 @@ package com.institute.iitManage.model.Tm;
 
 import javafx.scene.control.Button;
 
-import java.util.Arrays;
-
 public class CourseTm {
-    private String courseID;
-    private String name;
-    private String[] subjects;
-    private String teacherID;
-    private double cost;
-    private Button button;
+    String code;
+    String name;
+    String teacher;
+    Button btnTechList;
+    double cost;
+    Button btnOption;
 
     public CourseTm() {
     }
 
-    public CourseTm(String courseID, String name, String[] subjects, String teacherID, double cost, Button button) {
-        this.courseID = courseID;
+    public CourseTm(String code, String name, String teacher, Button btnTechList, double cost, Button btnOption) {
+        this.code = code;
         this.name = name;
-        this.subjects = subjects;
-        this.teacherID = teacherID;
+        this.teacher = teacher;
+        this.btnTechList = btnTechList;
         this.cost = cost;
-        this.button = button;
+        this.btnOption = btnOption;
     }
 
-    public String getCourseID() {
-        return courseID;
+    public String getCode() {
+        return code;
     }
 
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -40,20 +38,20 @@ public class CourseTm {
         this.name = name;
     }
 
-    public String[] getSubjects() {
-        return subjects;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setSubjects(String[] subjects) {
-        this.subjects = subjects;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
-    public String getTeacherID() {
-        return teacherID;
+    public Button getBtnTechList() {
+        return btnTechList;
     }
 
-    public void setTeacherID(String teacherID) {
-        this.teacherID = teacherID;
+    public void setBtnTechList(Button btnTechList) {
+        this.btnTechList = btnTechList;
     }
 
     public double getCost() {
@@ -64,31 +62,11 @@ public class CourseTm {
         this.cost = cost;
     }
 
-    public Button getButton() {
-        return button;
+    public Button getBtnOption() {
+        return btnOption;
     }
 
-    public void setButton(Button button) {
-        this.button = button;
-    }
-
-    @Override
-    public String toString() {
-        return "CourseTm{" +
-                "courseID='" + courseID + '\'' +
-                ", name='" + name + '\'' +
-                ", subjects=" + Arrays.toString(subjects) +
-                ", teacherID='" + teacherID + '\'' +
-                ", cost=" + cost +
-                ", button=" + button +
-                '}';
-    }
-
-    public String getSubjectSaString (){
-        String subject = null;
-        for (String temp : subjects) {
-            subject += ", " + temp;
-        }
-        return subject + "\b";
+    public void setBtnOption(Button btnOption) {
+        this.btnOption = btnOption;
     }
 }

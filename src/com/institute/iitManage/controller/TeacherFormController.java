@@ -44,7 +44,7 @@ public class TeacherFormController {
         setTableData(searchText);
 
         tblTeacher.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (null != newValue) {
+            if (newValue != null) {
                 setTableDataValue(newValue);
             }
         });
@@ -56,7 +56,6 @@ public class TeacherFormController {
     }
 
     public void newTeacherOnAction(ActionEvent actionEvent) {
-
         generateTeacherID();
         setTableData(searchText);
         clear();
@@ -68,6 +67,7 @@ public class TeacherFormController {
     }
 
     public void saveTeacherOnAction(ActionEvent actionEvent) {
+
         if (btnSaveTeacher.getText().equalsIgnoreCase("Save Teacher")) {
             Teacher teacher = new Teacher(
                     txtTeacherID.getText(),
@@ -80,6 +80,8 @@ public class TeacherFormController {
             generateTeacherID();
             clear();
             setTableData(searchText);
+            new Alert(Alert.AlertType.INFORMATION, "Teacher has been Saved...!").show();
+            System.out.println(teacher.toString());
 
         } else {
 
@@ -92,8 +94,8 @@ public class TeacherFormController {
                     setTableData(searchText);
                     clear();
                     generateTeacherID();
-                    new Alert(Alert.AlertType.INFORMATION,"Teacher has been updated Successfully....!").show();
-                    btnSaveTeacher.setText("Save Student");
+                    new Alert(Alert.AlertType.INFORMATION,"Teacher have been Updated Successfully....!").show();
+                    btnSaveTeacher.setText("Save Teacher");
                     return;
                 }
             }
@@ -108,8 +110,8 @@ public class TeacherFormController {
     }
 
     private void generateTeacherID(){
-        if (!Database.teacherTable.isEmpty()) {
 
+        if (!Database.teacherTable.isEmpty()) {
             Teacher lastTeacher = Database.teacherTable.get(Database.teacherTable.size()-1);
             String stringID = lastTeacher.getTeacherID();
             String[] split = stringID.split("-");
@@ -118,7 +120,9 @@ public class TeacherFormController {
             lastIDAsInteger++;
             String newID = "T-"+lastIDAsInteger;
             txtTeacherID.setText(newID);
+
         } else {
+
             txtTeacherID.setText("T-1");
         }
     }
@@ -130,12 +134,13 @@ public class TeacherFormController {
     }
 
     private void setTableData(String name) {
-        
+
         ObservableList<TeacherTm> oblist = FXCollections.observableArrayList();
 
         for (Teacher teacher : Database.teacherTable) {
-            
-            if (teacher.getName().contains(name)) {
+
+            if (teacher.getName().contains(searchText)) {
+
                 Button button = new Button("Delete");
 
                 oblist.add(new TeacherTm(
@@ -152,7 +157,7 @@ public class TeacherFormController {
 
                     if (buttonType.get().equals(ButtonType.YES)) {
                         Database.teacherTable.remove(teacher);
-                        new Alert(Alert.AlertType.INFORMATION, "Teacher has been Deleted....!").show();
+                        new Alert(Alert.AlertType.INFORMATION, "Teacher has been Deleted...!").show();
                         setTableData(searchText);
                     }
                 });

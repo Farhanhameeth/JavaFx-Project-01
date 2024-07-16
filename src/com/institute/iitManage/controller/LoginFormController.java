@@ -60,6 +60,10 @@ public class LoginFormController {
         setUI("SignUpForm");
     }
 
+    public void forgotPasswordOnAction(ActionEvent actionEvent) throws IOException {
+        setUI("ForgotPasswordForm");
+    }
+
     private void setUI(String location) throws IOException {
         Stage stage = (Stage) context.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/"+location+".fxml"))));

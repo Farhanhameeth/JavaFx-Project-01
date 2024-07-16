@@ -2,7 +2,9 @@ package com.institute.iitManage.controller;
 
 import com.institute.iitManage.db.Database;
 import com.institute.iitManage.model.Course;
+import com.institute.iitManage.model.Teacher;
 import com.institute.iitManage.model.Tm.CourseTm;
+import com.institute.iitManage.model.Tm.TechnologiesTm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class CourseFormController {
@@ -22,39 +25,36 @@ public class CourseFormController {
     public TextField txtCourseName;
     public Button btnSaveCourse;
     public TextField txtSearch;
+
     public TableView<CourseTm> tblCourse;
     public TableColumn<CourseTm,String> colCourseID;
-    public TableColumn<CourseTm,String> colCourseName;
-    public TableColumn<CourseTm,String[]> colSubjects;
-    public TableColumn<CourseTm,String> colTeacherID;
+    public TableColumn<CourseTm,String> colCourse;
+    public TableColumn<CourseTm,Button> colTechOnCourse;
+    public TableColumn<CourseTm,String> colTeacher;
     public TableColumn<CourseTm,Double> colCost;
     public TableColumn<CourseTm,Button> colOption;
-    public TextField txtSubjects;
+
+    public TextField txtTechnologies;
     public TextField txtTeacherID;
     public TextField txtCost;
+    public ComboBox<String> cmbTeachers;
+
+    public TableView<TechnologiesTm> tblTechnologies;
+    public TableColumn<TechnologiesTm,Integer> colTechID;
+    public TableColumn<TechnologiesTm,String> colTechnology;
+    public TableColumn<TechnologiesTm,Button> colRemove;
 
     String searchText = "";
-    public void initialize() {
-        colCourseID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
-        colCourseName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colSubjects.setCellFactory(column -> new TableCell<CourseTm, String[]>() {
-            @Override
-            protected void updateItem(String[] subjects, boolean empty) {
-                super.updateItem(subjects, empty);
-                if (empty || subjects == null) {
-                    setText(null);
-                } else {
-                    setText(String.join(", ", subjects));
-                }
-            }
-        });
-        colSubjects.setCellValueFactory(new PropertyValueFactory<>("subjects"));
-        colTeacherID.setCellValueFactory(new PropertyValueFactory<>("teacherID"));
-        colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
-        colOption.setCellValueFactory(new PropertyValueFactory<>("button"));
 
+    ArrayList<String> teachersArray = new ArrayList<>();
+
+    ObservableList<TechnologiesTm>  tmList = FXCollections.observableArrayList();
+
+    public void initialize() {
         generateCourseID();
-        setTableData(searchText);
+        setTeachers();
+        loadCourse(searchText);
+
 
         tblCourse.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (null!=newValue) {
@@ -64,12 +64,25 @@ public class CourseFormController {
 
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             searchText = newValue;
-            setTableData(searchText);
+            loadCourse(searchText);
         });
+
+        colTechID.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colTechnology.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colRemove.setCellValueFactory(new PropertyValueFactory<>("button"));
+
+        colCourseID.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colCourse.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colTeacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
+        colTechOnCourse.setCellValueFactory(new PropertyValueFactory<>("btnTechList"));
+        colCost.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        colOption.setCellValueFactory(new PropertyValueFactory<>("btnOption"));
+
     }
+
     public void newCourseOnAction(ActionEvent actionEvent) {
         generateCourseID();
-        setTableData(searchText);
+        loadCourse(searchText);
         clear();
         btnSaveCourse.setText("Save Course");
     }
@@ -79,37 +92,76 @@ public class CourseFormController {
     }
 
     public void saveCourseOnAction(ActionEvent actionEvent) {
+
+        String[] selectedTech = new String[tmList.size()];
+        int pointer = 0;
+
+        for (TechnologiesTm tech : tmList) {
+            selectedTech[pointer] = tech.getName();
+            pointer++;
+        }
+
         if (btnSaveCourse.getText().equalsIgnoreCase("Save Course")) {
             Course course = new Course(
                     txtCourseID.getText(),
                     txtCourseName.getText(),
-                    txtSubjects.getText().split(","),
-                    txtTeacherID.getText(),
-                    Double.parseDouble(txtCost.getText())
+                    selectedTech,
+                    cmbTeachers.getValue().split("\\.")[0],
+                    Double.parseDouble(txtCost.getText().trim())
             );
 
             Database.courseTable.add(course);
+            new Alert(Alert.AlertType.INFORMATION,"Course has been saved...!").show();
             generateCourseID();
+            loadCourse(searchText);
             clear();
-            setTableData(searchText);
+            loadCourse(searchText);
 
         } else {
 
             for (Course course : Database.courseTable) {
                 if (course.getCourseID().equals(txtCourseID.getText())) {
                     course.setCourseName(txtCourseName.getText());
-                    course.setSubjects(txtSubjects.getText().split(","));
-                    course.setTeacherID(txtTeacherID.getText());
+                    course.setSubjects(txtTechnologies.getText().split(","));
+                    course.setTeacherID(cmbTeachers.getValue().split("\\.")[0]);
                     course.setCost(Double.parseDouble(txtCost.getText()));
 
-                    setTableData(searchText);
+                    loadCourse(searchText);
                     clear();
+                    cmbTeachers.setValue(null);
                     generateCourseID();
                     new Alert(Alert.AlertType.INFORMATION,"Course has been Updated Successfully...!").show();
                     btnSaveCourse.setText("Save Course");
                     return;
                 }
             }
+        }
+
+    }
+
+    public void addTechOnAction(ActionEvent actionEvent) {
+
+        if (!isExist(txtTechnologies.getText().trim())) {
+            Button button = new Button("Remove");
+
+
+            TechnologiesTm tech = new TechnologiesTm(tmList.size()+1, txtTechnologies.getText().trim(), button);
+            tmList.add(tech);
+            tblTechnologies.setItems(tmList);
+            txtTechnologies.clear();
+
+            button.setOnAction(event -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you Sure....?",ButtonType.YES,ButtonType.NO);
+                Optional<ButtonType> buttonType = alert.showAndWait();
+
+                if (buttonType.get() == ButtonType.YES) {
+                    tmList.remove(tech);
+                    tblTechnologies.setItems(tmList);
+                }
+            });
+        } else {
+            txtTechnologies.selectAll();
+            new Alert(Alert.AlertType.INFORMATION,"This Technology On Course Already Exists...").show();
         }
 
     }
@@ -121,48 +173,68 @@ public class CourseFormController {
         stage.centerOnScreen();
     }
 
-    private void setTableData(String name) {
+    private void setTableDataValue(CourseTm courseTm) {
+        txtCourseID.setText(courseTm.getCode());
+        txtCourseName.setText(courseTm.getName());
+        tblTechnologies.setItems(tmList);
+        cmbTeachers.setValue(courseTm.getTeacher());
+        txtCost.setText(String.valueOf(courseTm.getCost()));
+        btnSaveCourse.setText("Update Course");
+    }
 
-        ObservableList<CourseTm> oblist = FXCollections.observableArrayList();
+    private void setTeachers() {
+
+        for (Teacher teacher : Database.teacherTable) {
+            teachersArray.add(teacher.getTeacherID() + ". " + teacher.getName());
+        }
+
+        ObservableList<String> oblist = FXCollections.observableArrayList(teachersArray);
+        cmbTeachers.setItems(oblist);
+    }
+
+    private boolean isExist(String tech) {
+        for (TechnologiesTm tm : tmList) {
+            if (tm.getName().equalsIgnoreCase(tech)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void loadCourse(String name) {
+        ObservableList<CourseTm> courseList = FXCollections.observableArrayList();
 
         for (Course course : Database.courseTable) {
 
             if (course.getCourseName().contains(name)) {
 
-                Button button = new Button("Delete");
+                Button techButton = new Button("Show Tech");
+                Button deleteButton = new Button("Delete");
 
-                oblist.add(new CourseTm(
+                CourseTm courseTm = new CourseTm(
                         course.getCourseID(),
                         course.getCourseName(),
-                        course.getSubjects(),
                         course.getTeacherID(),
+                        techButton,
                         course.getCost(),
-                        button
-                ));
+                        deleteButton
+                );
 
-
-                button.setOnAction(event -> {
+                deleteButton.setOnAction(event -> {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you Sure....?",ButtonType.YES,ButtonType.NO);
                     Optional<ButtonType> buttonType = alert.showAndWait();
 
                     if (buttonType.get().equals(ButtonType.YES)) {
                         Database.courseTable.remove(course);
                         new Alert(Alert.AlertType.INFORMATION,"Course has been Deleted....!").show();
-                        setTableData(searchText);
+                        loadCourse(searchText);
                     }
                 });
+
+                courseList.add(courseTm);
             }
         }
-        tblCourse.setItems(oblist);
-    }
-
-    private void setTableDataValue(CourseTm courseTm) {
-        txtCourseID.setText(courseTm.getCourseID());
-        txtCourseName.setText(courseTm.getName());
-        txtSubjects.setText(String.join(",",courseTm.getSubjects()));
-        txtTeacherID.setText(courseTm.getTeacherID());
-        txtCost.setText(String.valueOf(courseTm.getCost()));
-        btnSaveCourse.setText("Update Course");
+        tblCourse.setItems(courseList);
     }
 
     private void generateCourseID() {
@@ -176,14 +248,16 @@ public class CourseFormController {
             String newID = "C-"+lastIDAsInteger;
             txtCourseID.setText(newID);
         } else {
-            txtCourseID.setText("T-1");
+            txtCourseID.setText("C-1");
         }
     }
 
     private void clear() {
         txtCourseName.clear();
-        txtSubjects.clear();
-        txtTeacherID.clear();
+        txtTechnologies.clear();
+        cmbTeachers.getSelectionModel().clearSelection();
         txtCost.clear();
+        tmList.clear();
+        tblTechnologies.setItems(tmList);
     }
 }

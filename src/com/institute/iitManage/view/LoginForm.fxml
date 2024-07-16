@@ -29,7 +29,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <Hyperlink fx:id="txtforgotpassword" layoutX="148.0" layoutY="178.0" text="Forgot Password" />
+      <Hyperlink fx:id="txtforgotpassword" layoutX="148.0" layoutY="178.0" onAction="#forgotPasswordOnAction" text="Forgot Password" />
       <Button layoutX="27.0" layoutY="238.0" mnemonicParsing="false" onAction="#loginOnAction" prefHeight="26.0" prefWidth="220.0" style="-fx-background-color: #35A8ED;" text="Login" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />

@@ -40,7 +40,6 @@ public class Course {
     }
 
     public void setSubjects(String[] subjects) {
-
         this.subjects = subjects;
     }
 

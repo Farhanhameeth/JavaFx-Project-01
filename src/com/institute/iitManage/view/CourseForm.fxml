@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="context" prefHeight="410.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.institute.iitManage.controller.CourseFormController">
+<AnchorPane fx:id="context" prefHeight="706.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.institute.iitManage.controller.CourseFormController">
    <children>
       <Label layoutX="12.0" layoutY="13.0" text="Course Management" textFill="#35a8ed">
          <font>
@@ -18,7 +19,7 @@
          </font>
       </Label>
       <Separator layoutX="12.0" layoutY="45.0" prefHeight="11.0" prefWidth="736.0" />
-      <Button layoutX="494.0" layoutY="11.0" mnemonicParsing="false" onAction="#newCourseOnAction" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #35a8ed;" text="+ New Teacher" textFill="WHITE">
+      <Button layoutX="494.0" layoutY="11.0" mnemonicParsing="false" onAction="#newCourseOnAction" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #35a8ed;" text="+ New Course" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -34,17 +35,17 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="txtCourseID" disable="true" layoutX="14.0" layoutY="63.0" prefHeight="27.0" prefWidth="89.0" promptText="Course ID">
+      <TextField fx:id="txtCourseID" disable="true" layoutX="65.0" layoutY="64.0" prefHeight="27.0" prefWidth="89.0" promptText="Course ID">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtCourseName" layoutX="113.0" layoutY="63.0" prefHeight="27.0" prefWidth="182.0" promptText="Course Name">
+      <TextField fx:id="txtCourseName" layoutX="171.0" layoutY="63.0" prefHeight="27.0" prefWidth="182.0" promptText="Course Name">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="btnSaveCourse" layoutX="351.0" layoutY="101.0" mnemonicParsing="false" onAction="#saveCourseOnAction" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #35a8ed;" text="Save Course" textFill="WHITE">
+      <Button fx:id="btnSaveCourse" layoutX="323.0" layoutY="373.0" mnemonicParsing="false" onAction="#saveCourseOnAction" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #35a8ed;" text="Save Course" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -52,35 +53,47 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="12.0" layoutY="147.0" prefHeight="27.0" prefWidth="736.0" promptText="Search Course">
+      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="12.0" layoutY="440.0" prefHeight="27.0" prefWidth="736.0" promptText="Search Course">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <TableView fx:id="tblCourse" layoutX="12.0" layoutY="191.0" prefHeight="212.0" prefWidth="736.0">
+      <TableView fx:id="tblCourse" layoutX="12.0" layoutY="484.0" prefHeight="212.0" prefWidth="736.0">
          <columns>
             <TableColumn fx:id="colCourseID" prefWidth="89.0" text="CourseID" />
-            <TableColumn fx:id="colCourseName" prefWidth="132.0" text="Course Name" />
-            <TableColumn fx:id="colSubjects" prefWidth="204.0" text="Subjects" />
-            <TableColumn fx:id="colTeacherID" prefWidth="106.0" text="Teacher ID" />
+            <TableColumn fx:id="colCourse" prefWidth="132.0" text="Course" />
+            <TableColumn fx:id="colTechOnCourse" prefWidth="204.0" text="Technologies" />
+            <TableColumn fx:id="colTeacher" prefWidth="106.0" text="Teacher" />
             <TableColumn fx:id="colCost" prefWidth="108.0" text="Cost" />
             <TableColumn fx:id="colOption" prefWidth="96.0" text="Option" />
          </columns>
       </TableView>
-      <TextField fx:id="txtSubjects" layoutX="305.0" layoutY="63.0" prefHeight="27.0" prefWidth="209.0" promptText="Subjects">
+      <TextField fx:id="txtTechnologies" layoutX="133.0" layoutY="100.0" prefHeight="27.0" prefWidth="209.0" promptText="Technologies">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtTeacherID" layoutX="523.0" layoutY="63.0" prefHeight="27.0" prefWidth="99.0" promptText="Teacher ID">
+      <TextField fx:id="txtCost" layoutX="377.0" layoutY="63.0" prefHeight="27.0" prefWidth="129.0" promptText="Cost">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtCost" layoutX="631.0" layoutY="63.0" prefHeight="27.0" prefWidth="118.0" promptText="Cost">
+      <ComboBox fx:id="cmbTeachers" layoutX="525.0" layoutY="64.0" prefHeight="26.0" prefWidth="174.0" promptText="Teacher" />
+      <Button layoutX="377.0" layoutY="100.0" mnemonicParsing="false" onAction="#addTechOnAction" prefHeight="27.0" prefWidth="209.0" style="-fx-background-color: #35a8ed;" text="+ New Technologoes" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
-      </TextField>
+      </Button>
+      <TableView fx:id="tblTechnologies" layoutX="187.0" layoutY="160.0" prefHeight="200.0" prefWidth="389.0">
+        <columns>
+          <TableColumn fx:id="colTechID" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="colTechnology" prefWidth="169.0" text="Technology" />
+          <TableColumn fx:id="colRemove" prefWidth="119.0" text="Remove" />
+        </columns>
+      </TableView>
+      <Separator layoutX="12.0" layoutY="415.0" prefHeight="11.0" prefWidth="736.0" />
    </children>
 </AnchorPane>
