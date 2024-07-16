@@ -1,23 +1,25 @@
-package com.institute.iitManage.model;
+package com.institute.iitManage.model.Tm;
 
-import java.util.Date;
+import javafx.scene.control.Button;
 
-public class Intake {
+public class IntakeTm {
 
     String id;
     String name;
-    Date date;
+    String date;
     String course;
     boolean status;
+    Button button;
 
-    public Intake() {}
+    public IntakeTm() {}
 
-    public Intake(String id, String name, Date date, String course, boolean status) {
+    public IntakeTm(String id, String name, String date, String course, boolean status, Button button) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.course = course;
         this.status = status;
+        this.button = button;
     }
 
     public String getId() {
@@ -36,11 +38,11 @@ public class Intake {
         this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -58,5 +60,13 @@ public class Intake {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
     }
 }

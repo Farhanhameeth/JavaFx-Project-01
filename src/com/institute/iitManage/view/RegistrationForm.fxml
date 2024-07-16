@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="context" prefHeight="436.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.institute.iitManage.controller.RegistrationController">
    <children>
       <Label layoutX="32.0" layoutY="143.0" text="Payment Status" textFill="#35a8ed">
@@ -49,7 +48,7 @@
          </font>
       </TextField>
       <ComboBox fx:id="cmbCourse" layoutX="555.0" layoutY="74.0" prefHeight="26.0" prefWidth="174.0" promptText="Course" />
-      <Label layoutX="32.0" layoutY="33.0" text="New  Registration" textFill="#35a8ed">
+      <Label layoutX="22.0" layoutY="23.0" text="New  Registration" textFill="#35a8ed">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

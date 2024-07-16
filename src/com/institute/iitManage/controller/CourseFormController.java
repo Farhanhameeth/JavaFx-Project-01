@@ -35,7 +35,6 @@ public class CourseFormController {
     public TableColumn<CourseTm,Button> colOption;
 
     public TextField txtTechnologies;
-    public TextField txtTeacherID;
     public TextField txtCost;
     public ComboBox<String> cmbTeachers;
 
@@ -115,8 +114,6 @@ public class CourseFormController {
             generateCourseID();
             loadCourse(searchText);
             clear();
-            loadCourse(searchText);
-
         } else {
 
             for (Course course : Database.courseTable) {
@@ -228,6 +225,17 @@ public class CourseFormController {
                         Database.courseTable.remove(course);
                         new Alert(Alert.AlertType.INFORMATION,"Course has been Deleted....!").show();
                         loadCourse(searchText);
+                    }
+                });
+
+                techButton.setOnAction(event -> {
+                    Stage stage = new Stage();
+                    try {
+                        stage.setScene(FXMLLoader.load(getClass().getResource("../view/TechnologiesForm.fxml")));
+                        stage.centerOnScreen();
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 });
 

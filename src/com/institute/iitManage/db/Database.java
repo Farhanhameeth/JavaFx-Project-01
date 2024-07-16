@@ -1,6 +1,7 @@
 package com.institute.iitManage.db;
 
 import com.institute.iitManage.model.*;
+import com.institute.iitManage.model.Tm.IntakeTm;
 import com.institute.iitManage.util.security.PasswordManager;
 
 import java.awt.*;
@@ -29,8 +30,7 @@ public class Database {
                 "Summar",
                 new Date(),
                 "SE",
-                false,
-                new Button("Delete")
+                false
                 ));
 
     }
